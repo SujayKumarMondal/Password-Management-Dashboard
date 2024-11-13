@@ -1,5 +1,7 @@
 import os
 from os import urandom
+import random
+import string
 from PIL import Image
 from flask import render_template, flash, redirect, url_for, request
 from loginapp import app, db, bcrypt, mail
@@ -7,6 +9,36 @@ from loginapp.forms import RegistrationForm, LoginForm, AddPassword, RequestRese
 from loginapp.models import User, PasswordManager
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
+
+@app.route('/generate_password', methods=['GET', 'POST'])
+@login_required
+def generate_password():
+    if request.method == 'POST':
+        length = int(request.form.get('length', 12))
+        include_special = 'special' in request.form
+        include_numbers = 'numbers' in request.form
+
+        # Generate the password based on user input
+        password = generate_random_password(length, include_special, include_numbers)
+        return render_template('generate_password.html', password=password)
+
+    return render_template('generate_password.html', password=None)
+
+def generate_random_password(length, include_special, include_numbers):
+    # Character sets for password generation
+    characters = string.ascii_letters  # Letters (lower and uppercase)
+
+    if include_numbers:
+        characters += string.digits  # Add digits
+
+    if include_special:
+        characters += string.punctuation  # Add special characters
+
+    # Generate a random password with the given length
+    password = ''.join(random.choice(characters) for _ in range(length))
+
+    return password
+
 
 @app.route('/')
 def home():

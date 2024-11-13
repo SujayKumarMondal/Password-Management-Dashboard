@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,900;1,400&display=swap" rel="stylesheet">
 
     <style>
-        /* Global styles */
         body {
             font-family: 'Raleway', sans-serif;
             background: linear-gradient(135deg, #ff6a88, #ff9a8b, #fbc2eb);
@@ -21,85 +20,16 @@
             color: #fff;
         }
 
-        /* Main container */
         .main-container {
-            border-radius: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             width: 100%;
             max-width: 1000px;
-            height: auto;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.2);
             padding: 30px;
+            border-radius: 15px;
             box-shadow: 0px 15px 50px rgba(0, 0, 0, 0.3);
         }
 
-        /* Inner container */
-        .inner-container {
-            width: 100%;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        /* User profile section */
-        .one {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .is-bordered {
-            border: 2px solid white;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .info {
-            padding-left: 20px;
-        }
-
-        .info h1 {
-            font-size: 24px;
-            font-weight: 900;
-            color: #ffdf00;
-            text-transform: capitalize;
-        }
-
-        .info h3 {
-            font-size: 18px;
-            color: #ffffff;
-        }
-
-        /* Heading and greeting */
-        .two .heading {
-            font-size: 50px;
-            font-weight: 900;
-            color: #ffffff;
-            text-transform: capitalize;
-            text-align: center;
-        }
-
-        /* Description */
-        .three {
-            margin-top: 20px;
-            font-size: 18px;
-            text-align: center;
-            color: #ffffff;
-            padding: 0 10px;
-        }
-
-        /* Buttons */
-        .four {
+        .buttons {
             margin-top: 40px;
             display: flex;
             gap: 15px;
@@ -113,79 +43,11 @@
             padding: 12px 25px;
             border-radius: 30px;
             transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
-            width: 180px;
-            text-align: center;
         }
 
         .button.is-link:hover {
             background-color: #ffdf00;
             transform: scale(1.05);
-        }
-
-        .button.is-link:focus {
-            outline: none;
-            background-color: #ffdf00;
-        }
-
-        /* Notification styling */
-        .notify {
-            margin: 15px 0;
-            padding: 15px;
-            border-radius: 15px;
-            font-weight: bold;
-            text-align: center;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .notify.is-success {
-            background-color: #4caf50;
-            color: white;
-        }
-
-        .notify.is-danger {
-            background-color: #f44336;
-            color: white;
-        }
-
-        .notify.is-info {
-            background-color: #2196f3;
-            color: white;
-        }
-
-        /* Delete button inside notification */
-        .notify .delete {
-            color: white;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .main-container {
-                padding: 15px;
-            }
-
-            .inner-container {
-                padding: 20px;
-            }
-
-            .button.is-link {
-                width: 100%;
-            }
-
-            .two .heading {
-                font-size: 36px;
-            }
         }
     </style>
 </head>
@@ -193,59 +55,38 @@
 <body>
     {% extends "navbar.html" %}
     {% block content %}
-
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    {% for category, message in messages %}
-    <div class="notify notification is-{{ category }}" id="notifyDiv">
-        <button class="delete" onclick="hideDiv()"></button>
-        {{ message }}
-    </div>
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
-
     <div class="main-container">
-        <div class="inner-container">
-
-            <div class="one">
-                <figure class="image is-128x128">
-                    <img class="is-rounded is-bordered" src="{{ image_file }}">
-                </figure>
-
-                <div class="info">
-                    <h1>{{ current_user.name }} <a href="manager/account">
-                            <ion-icon name="create-outline"></ion-icon>
-                        </a>
-                    </h1>
-                    <h3>{{ current_user.email }}</h3>
-                </div>
-            </div>
-
-            <div class="two">
-                <h1 class="heading">Hello &</h1>
-                <h1 class="heading">Welcome!</h1>
-            </div>
-
-            <div class="three">
-                <p>Take a moment to explore, add new passwords, and organize your data. We’re here to help you maintain strong security with just a few clicks.
-                    Stay safe, stay secure!
-                </p>
-            </div>
-
-            <div class="four">
-                <button class="button is-link is-light"><a href="manager/add">Add Password</a></button>
-                <button class="button is-link is-light"><a href="manager/display">Display</a></button>
-                <button class="button is-link is-light"><a href="manager/account">Account</a></button>
+        <div class="one">
+            <figure class="image is-128x128">
+                <img class="is-rounded is-bordered" src="{{ image_file }}">
+            </figure>
+            <div class="info">
+                <h1>{{ current_user.name }} <a href="manager/account">
+                        <ion-icon name="create-outline"></ion-icon>
+                    </a></h1>
+                <h3>{{ current_user.email }}</h3>
             </div>
         </div>
+
+        <div class="two">
+            <h1 class="heading">Hello &</h1>
+            <h1 class="heading">Welcome!</h1>
+        </div>
+
+        <div class="three">
+            <p>Take a moment to explore, add new passwords, and organize your data. We’re here to help you maintain strong security with just a few clicks.
+                Stay safe, stay secure!
+            </p>
+        </div>
+
+        <div class="buttons">
+            <button class="button is-link is-light"><a href="manager/add">Add Password</a></button>
+            <button class="button is-link is-light"><a href="manager/display">Display</a></button>
+            <button class="button is-link is-light"><a href="manager/account">Account</a></button>
+            <button class="button is-link is-light"><a href="generate_password">Generate Password</a></button>
+        </div>
     </div>
-
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
     {% endblock %}
-
 </body>
 
 </html>
