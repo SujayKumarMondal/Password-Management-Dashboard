@@ -45,7 +45,7 @@ class RegistrationForm(FlaskForm):
         DataRequired(),
         EqualTo('password', message="Passwords must match")
     ])
-    submit = SubmitField('Sign Up')
+    submit_btn = SubmitField('Sign Up')
 
     # Adding validation for abnormal anomalies
     def validate_email(self, email):
@@ -73,7 +73,14 @@ class AddPassword(FlaskForm):
     webaddress = StringField('Web Address', validators=[DataRequired()])
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[
+        DataRequired(),
+        Length(min=6, max=20),
+        Regexp(r'^(?!.*[_,/]).*$', message="Password cannot contain _, / or ,"),
+        Regexp(r'.*[A-Za-z].*', message="Password must contain at least one letter"),
+        Regexp(r'.*\d.*', message="Password must contain at least one number"),
+        Regexp(r'.*[\W_].*', message="Password must contain at least one special character"),
+    ])
 
     submit_btn = SubmitField('Submit')
 

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import backref
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import URLSafeTimedSerializer as Serializer
 from loginapp import db, login_manager, app
 from flask_login import UserMixin # this line is also important dono why
 
