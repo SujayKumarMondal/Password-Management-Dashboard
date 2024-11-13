@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
+    <title>Display</title>
+
+    <style>
+        /* General Body Styling */
+        body {
+            background: linear-gradient(135deg, #f39c12, #d674a5); /* Golden gradient background */
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        /* Main table container (centering) */
+        .main-table {
+            border: 2.5px solid #f39c12;
+            width: 100%;
+            margin-top: 5%;
+            margin-bottom: 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            background: #ffffff;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            flex-grow: 1; /* Allows the table to take available space */
+            padding: 20px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-radius: 15px;
+            font-size: 1.1em;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px 15px;
+            text-align: center;
+            border-bottom: 1px solid #f1c40f;
+        }
+
+        th {
+            background: linear-gradient(135deg, #f39c12, #f1c40f);
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #f1f1f1;
+        }
+
+        /* Hover effect on rows */
+        tr:hover {
+            background-color: #f39c12;
+            color: white;
+            cursor: pointer;
+            transform: translateY(-2px); /* Slight lift effect */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        /* Checkbox Style */
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin: 0;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        input[type="checkbox"]:checked {
+            background-color: #f39c12;
+            transform: scale(1.2);
+        }
+
+        /* Password visibility toggle */
+        #passwd {
+            display: none;
+            font-size: 1rem;
+            color: #f39c12;
+        }
+
+        #box:checked + #passwd {
+            display: inline-block;
+        }
+
+        /* Button Styles */
+        .button {
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 1em;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .button.is-warning {
+            background: linear-gradient(135deg, #f39c12, #f1c40f);
+            color: white;
+        }
+
+        .button.is-warning:hover {
+            background: linear-gradient(135deg, #f1c40f, #f39c12);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+        .button.is-success {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+        }
+
+        .button.is-success:hover {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+        .button.is-danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .button.is-danger:hover {
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Notification for No Records */
+        .notification.is-warning {
+            background-color: rgba(243, 156, 18, 0.1);
+            color: #f39c12;
+        }
+
+        /* Ionicons Icon */
+        ion-icon {
+            color: #fff;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .main-table {
+                width: 95%;
+                margin-top: 10%;
+            }
+
+            table {
+                font-size: 0.9em;
+            }
+
+            .button {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% extends "navbar.html" %}
+    {% block content %}
+
+    <main>
+        <!-- Main Table centered on the screen -->
+        <div class="main-table">
+            <table class="table is-striped is-hoverable is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>SL</th>
+                        <th>WEBSITES</th>
+                        <th>USERNAMES</th>
+                        <th>EMAILS</th>
+                        <th>PASSWORDS</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% if elements|length == 0 %}
+                    <tr>
+                        <td colspan="5">
+                            <div class="notification is-warning">
+                                <strong>No record found. Please add <a href="{{url_for('add')}}">here</a>.</strong>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="button is-warning is-light">
+                                <a href="{{url_for('add')}}">
+                                    <ion-icon name="add-circle-outline" size='large'></ion-icon>
+                                </a>
+                            </button>
+                        </td>
+                    </tr>
+                    {% else %}
+                    {% for element in elements %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ element.webaddress }}</td>
+                        <td>{{ element.username }}</td>
+                        <td>{{ element.email }}</td>
+
+                        <td><input type="checkbox" id="box" class="size" />&Tab;<input value="{{ element.password }}" 
+                            id="passwd"></input></td>
+                        <td>
+                            <a href="{{url_for('add')}}"><button class="button is-warning is-light">
+                                    <ion-icon name="add-circle-outline" size='large'></ion-icon>
+                                </button></a>
+                            <a href="/update/{{element.sl}}"><button class="button is-success is-light">Update</button></a>
+                            <a href="/delete/{{element.sl}}"><button class="button is-danger is-light">Delete</button></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    {% endblock %}
+</body>
+
+</html>

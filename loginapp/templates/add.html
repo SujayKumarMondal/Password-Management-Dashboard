@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>Add</title>
+    {% endif %}
+
+    <style>
+        /* Body and Background */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a8b, #ff6a88, #d46a6a);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            color: white;
+        }
+
+        /* Main Container */
+        .main-container {
+            border-radius: 15px;
+            max-width: 900px;
+            width: 90%;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Content Container */
+        .content-container {
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .title.is-4 {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffdf00;
+            margin-bottom: 30px;
+        }
+
+        /* Form Styling */
+        .field {
+            margin-bottom: 20px;
+        }
+
+        .control input,
+        .control select,
+        .control textarea {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 2px solid #ff6a88;
+            border-radius: 10px;
+            color: white;
+            padding: 12px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease-in-out;
+            width: 100%;
+        }
+
+        .control input:focus,
+        .control select:focus,
+        .control textarea:focus {
+            outline: none;
+            border-color: #ffdf00;
+            background-color: rgba(255, 223, 0, 0.2);
+        }
+
+        /* Icon Styling */
+        .has-icons-left .icon {
+            color: #ff6a88;
+        }
+
+        .has-icons-left .icon.is-small {
+            font-size: 18px;
+        }
+
+        /* Button Styling */
+        .button.is-primary {
+            background-color: #ff6a88;
+            border-radius: 25px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 12px 25px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .button.is-primary:hover {
+            background-color: #ffdf00;
+            border-color: #ffdf00;
+            transform: scale(1.05);
+        }
+
+        .button.is-primary:focus {
+            outline: none;
+            background-color: #ffdf00;
+            border-color: #ffdf00;
+        }
+
+        /* Input Error Styling */
+        .input.is-danger,
+        .help.is-danger {
+            background-color: rgba(255, 50, 50, 0.2);
+            color: #e74c3c;
+            border: 2px solid #e74c3c;
+        }
+
+        .help.is-danger {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Notification Styling */
+        .notification {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .main-container {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .content-container {
+                padding: 20px;
+            }
+
+            .title.is-4 {
+                font-size: 1.5rem;
+            }
+
+            .button.is-primary {
+                font-size: 1rem;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% extends "navbar.html" %}
+    {% block content %}
+
+    <div class="main-container">
+        <!-- Main container for Register form -->
+        <div class="content-container box">
+            <!-- Heading -->
+            <div class="block title is-4">Add Fields</div>
+
+            <!-- Form content -->
+            <form method='POST' action="">
+                {{ form.hidden_tag() }}
+                <div class="field">
+                    {{ form.webaddress.label(class="label") }}
+                    <div class="control has-icons-left">
+                        {% if form.webaddress.errors %}
+                        {{ form.webaddress(class="input is-danger", type="text", placeholder="https://example.com") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="link" style="font-size: 20px;"></ion-icon>
+                        </span>
+                        {% for error in form.webaddress.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                        {% endfor %}
+                        {% else %}
+                        {{ form.webaddress(class="input", type="text", placeholder="https://example.com") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="link" style="font-size: 20px;"></ion-icon>
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="field">
+                    {{ form.username.label(class="label") }}
+                    <div class="control has-icons-left">
+                        {% if form.username.errors %}
+                        {{ form.username(class="input is-danger", type="text", placeholder="Username") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="person"></ion-icon>
+                        </span>
+                        {% for error in form.username.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                        {% endfor %}
+                        {% else %}
+                        {{ form.username(class="input", type="text", placeholder="Username") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="person"></ion-icon>
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="field">
+                    {{ form.email.label(class="label") }}
+                    <div class="control has-icons-left">
+                        {% if form.email.errors %}
+                        {{ form.email(class="input is-danger", type="email", placeholder="eg. demo@email.com") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="mail" style="font-size: 20px;"></ion-icon>
+                        </span>
+                        {% for error in form.email.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                        {% endfor %}
+                        {% else %}
+                        {{ form.email(class="input", type="email", placeholder="eg. demo@email.com") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="mail" style="font-size: 20px;"></ion-icon>
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="field">
+                    {{ form.password.label(class="label") }}
+                    <div class="control has-icons-left">
+                        {% if form.password.errors %}
+                        {{ form.password(class="input is-danger", type="password", placeholder="Password") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="lock-closed" style="font-size: 20px;"></ion-icon>
+                        </span>
+                        {% for error in form.password.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                        {% endfor %}
+                        {% else %}
+                        {{ form.password(class="input", type="password", placeholder="Password") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="lock-closed" style="font-size: 20px;"></ion-icon>
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="control">
+                    <!-- Submit Button -->
+                    {{ form.submit_btn(class="button is-primary") }}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    {% endblock %}
+</body>
+
+</html>

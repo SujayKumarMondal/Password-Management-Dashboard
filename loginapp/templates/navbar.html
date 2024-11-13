@@ -1,0 +1,133 @@
+{% block navbar %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="/static/navbar.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Raleway&display=swap" rel="stylesheet">
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Navbar Styling */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f4f9; /* Light background for contrast */
+    }
+
+    header {
+      background: linear-gradient(45deg, #ff6b6b, #f06595); /* Gradient background */
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+      color: white;
+    }
+
+    .logo {
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-align: center;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      font-family: 'Raleway', sans-serif;
+    }
+
+    .logo a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .logo a:hover {
+      color: #ffdf00; /* Bright yellow hover color */
+    }
+
+    .main-nav {
+      display: flex;
+      justify-content: center;
+      gap: 30px; /* Space out links */
+      list-style: none;
+    }
+
+    .main-nav li {
+      display: inline;
+      font-size: 1.1rem;
+    }
+
+    .main-nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      text-transform: capitalize;
+      transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+      padding: 10px 15px;
+      border-radius: 30px;
+    }
+
+    .main-nav a:hover {
+      color: #ffdf00; /* Yellow hover color */
+      transform: scale(1.1); /* Slight zoom effect on hover */
+      background-color: rgba(255, 223, 0, 0.2); /* Subtle background on hover */
+    }
+
+    /* Active link color */
+    .main-nav li a.active {
+      color: #ffdf00;
+      font-weight: bold;
+      border-bottom: 2px solid #ffdf00;
+    }
+
+    /* Styling for authenticated users */
+    {% if current_user.is_authenticated %}
+    .main-nav li a.authenticated {
+      background-color: rgba(0, 255, 0, 0.2); /* Different background color for authenticated users */
+    }
+    {% endif %}
+
+    /* Mobile responsiveness */
+    @media screen and (max-width: 768px) {
+      .main-nav {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .logo {
+        font-size: 2rem;
+      }
+
+      .main-nav li a {
+        font-size: 1.2rem;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <h1 class="logo"><a href="{{ url_for('home') }}">Password Management Dashboard (PMD)</a></h1>
+    <div>
+      <ul class="main-nav">
+        <li><a href="{{ url_for('home') }}" class="{{ 'active' if request.endpoint == 'home' else '' }}">Home</a></li>
+        {% if current_user.is_authenticated %}
+        <li><a href="{{ url_for('manager') }}" class="{{ 'active' if request.endpoint == 'manager' else '' }}">Dashboard</a></li>
+        <li><a href="{{ url_for('logout') }}" class="{{ 'active' if request.endpoint == 'logout' else '' }}">Logout</a></li>
+        {% else %}
+        <li><a href="#" class="{{ 'active' if request.endpoint == 'services' else '' }}">Services</a></li>
+        <li><a href="{{ url_for('login') }}" class="{{ 'active' if request.endpoint == 'login' else '' }}">Login</a></li>
+        <li><a href="{{ url_for('register') }}" class="{{ 'active' if request.endpoint == 'register' else '' }}">Register</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </header>
+  {% endblock %}
+  {% block content %}
+  {% endblock %}
+</body>
+
+</html>

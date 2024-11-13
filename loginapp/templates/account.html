@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Account</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,900;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* Body and Background */
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: linear-gradient(135deg, #FF6B6B, #F06595); /* Gradient background */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 20px;
+        }
+
+        /* Main Container */
+        .main-container {
+            border-radius: 15px;
+            max-width: 800px;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Profile Section */
+        .one {
+            padding-top: 20px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .image.is-128x128 {
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .info {
+            margin-left: 20px;
+            text-align: center;
+        }
+
+        .info h1 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .info h3 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #f06595;
+        }
+
+        /* Form Section */
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .field {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .control input,
+        .control select,
+        .control textarea {
+            background-color: rgba(255, 255, 255, 0.4);
+            border: 2px solid #f06595;
+            border-radius: 10px;
+            padding-left: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .control input:focus,
+        .control select:focus,
+        .control textarea:focus {
+            border-color: #ffdf00;
+            background-color: rgba(255, 223, 0, 0.2);
+            outline: none;
+        }
+
+        .file-input {
+            background-color: rgba(255, 255, 255, 0.3);
+            border: 2px solid #f06595;
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-input:focus {
+            border-color: #ffdf00;
+            background-color: rgba(255, 223, 0, 0.2);
+        }
+
+        .file-cta {
+            color: #f06595;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .file-cta:hover {
+            color: #ffdf00;
+        }
+
+        /* Submit Button */
+        .button.is-primary {
+            background-color: #ff6b6b;
+            border-color: #ff6b6b;
+            color: white;
+            border-radius: 25px;
+            font-weight: bold;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .button.is-primary:hover {
+            background-color: #f06595;
+            border-color: #f06595;
+            transform: scale(1.05);
+        }
+
+        .button.is-primary:focus {
+            outline: none;
+            background-color: #ffdf00;
+            border-color: #ffdf00;
+        }
+
+        /* Notification Styling */
+        .notification {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            color: white;
+            padding: 10px;
+        }
+
+        /* Error Messages */
+        .help.is-danger {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        /* File Input Section */
+        .file-name {
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .main-container {
+                width: 90%;
+                padding: 20px;
+            }
+
+            .info h1 {
+                font-size: 1.5rem;
+            }
+
+            .info h3 {
+                font-size: 1rem;
+            }
+
+            .button.is-primary {
+                width: 100%;
+                padding: 12px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% extends "navbar.html" %}
+    {% block content %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="notify notification is-{{ category }}">
+        <button class="delete" onclick="hideDiv()"></button>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="main-container">
+        <div class="content-container box">
+
+            <!-- Profile Information Section -->
+            <div class="one">
+                <figure class="image is-128x128">
+                    <img class="is-rounded" src="{{ image_file }}" alt="Profile Picture">
+                </figure>
+                <div class="info">
+                    <h1>{{ current_user.name }}</h1>
+                    <h3>{{ current_user.email }}</h3>
+                </div>
+            </div>
+
+            <!-- Form to Edit Profile -->
+            <form method="POST" action="" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <!-- Name Field -->
+                <div class="field">
+                    {{ form.name.label(class="label") }}
+                    <div class="control has-icons-left">
+                        {% if form.name.errors %}
+                        {{ form.name(class="input is-danger", type="text", placeholder="Name") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="person"></ion-icon>
+                        </span>
+                        {% for error in form.name.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                        {% endfor %}
+                        {% else %}
+                        {{ form.name(class="input", type="text", placeholder="Name") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="person"></ion-icon>
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Email Field -->
+                <div class="field">
+                    {{ form.email.label(class="label") }}
+                    <div class="control has-icons-left">
+                        {% if form.email.errors %}
+                        {{ form.email(class="input is-danger", type="email", placeholder="eg. demo@email.com") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="mail"></ion-icon>
+                        </span>
+                        {% for error in form.email.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                        {% endfor %}
+                        {% else %}
+                        {{ form.email(class="input", type="email", placeholder="eg. demo@email.com") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="mail"></ion-icon>
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Profile Picture Upload -->
+                <div class="field">
+                    {{ form.picture.label(class="label") }}
+                    <div class="file has-name is-boxed">
+                        <label class="file-label">
+                            {{ form.picture(class="file-input", type="file") }}
+                            <span class="file-cta">
+                                <span class="file-icon">
+                                    <ion-icon name="cloud-upload-outline" size='large'></ion-icon>
+                                </span>
+                                <span class="file-label">Choose a file…</span>
+                            </span>
+                            <span class="file-name">No file uploaded</span>
+                        </label>
+                    </div>
+                    <script>
+                        const fileInput = document.querySelector('#file-js-example input[type=file]');
+                        fileInput.onchange = () => {
+                            if (fileInput.files.length > 0) {
+                                const fileName = document.querySelector('#file-js-example .file-name');
+                                fileName.textContent = fileInput.files[0].name;
+                            }
+                        }
+                    </script>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="control">
+                    {{ form.submit_btn(class="button is-primary") }}
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    {% endblock %}
+</body>
+
+</html>

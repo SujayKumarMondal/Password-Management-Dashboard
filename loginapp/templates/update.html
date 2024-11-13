@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>Update</title>
+    {% endif %}
+
+    <style>
+        /* Set the background to a gradient or image */
+        body {
+            background: linear-gradient(135deg, #6a11cb, #2575fc); /* Gradient background similar to login */
+            background-size: cover;
+            background-position: center;
+            height: 100vh; /* Full height of the viewport */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Main container (outer box) */
+        .main-container {
+            border: 2.5px solid #d4b5ff;
+            background-color: #f1f1ff; /* Soft purple-blue background */
+            border-radius: 20px;
+            width: 80vw; /* Increased width for outer box */
+            max-width: 1200px; /* Limit the maximum width */
+            height: auto;
+            padding: 40px 0; /* Added padding for spacing */
+            margin: 20px auto; /* Centering the outer box */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+        }
+
+        /* Content container (form box) */
+        .content-container {
+            border: 2.5px solid #d4b5ff;
+            background: linear-gradient(145deg, #e1c6ff, #d4b5ff); /* Gradient from light purple to lilac */
+            padding: 40px 60px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Form title */
+        .title {
+            text-align: center;
+            font-size: 2.4rem;
+            color: #6c4fbb; /* Rich purple color */
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Form fields */
+        .field {
+            margin-bottom: 20px;
+        }
+
+        .label {
+            font-size: 1.2rem;
+            color: #6c4fbb;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .control .input {
+            font-size: 1.1rem;
+            padding-left: 30px;
+            border-radius: 10px;
+            border: 1px solid #d4b5ff;
+            transition: all 0.3s ease;
+            background-color: #fafafa; /* Subtle background color */
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .control .input:focus {
+            border-color: #6c4fbb;
+            box-shadow: 0 0 8px rgba(108, 79, 187, 0.3);
+        }
+
+        .icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c4fbb;
+        }
+
+        /* Input fields with icons */
+        .control.has-icons-left .input {
+            padding-left: 40px;
+        }
+
+        /* Error messages */
+        .help.is-danger {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* Submit button */
+        .button.is-primary {
+            background: linear-gradient(135deg, #6c4fbb, #d4b5ff); /* Gradient background */
+            color: white;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            width: 100%;
+            padding: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .button.is-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Hover effects for form fields */
+        .control .input:hover {
+            border-color: #6c4fbb;
+            background-color: #f1e9ff;
+        }
+
+        /* Hover effects for submit button */
+        .button.is-primary:active {
+            background: #b283e1;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Responsive styling */
+        @media screen and (max-width: 768px) {
+            .content-container {
+                padding: 20px 30px;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .button.is-primary {
+                font-size: 1rem;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    {% extends "navbar.html" %}
+    {% block content %}
+
+    <div class="main-container">
+        <!-- main container for Register form -->
+        <div class="content-container box">
+            <!-- heading -->
+            <div class="block title is-4">Update</div>
+
+            <!-- form content -->
+            <form method='POST' action="">
+                {{ form.hidden_tag() }}
+
+                <!-- Web address field -->
+                <div class="field">
+                    {{ form.webaddress.label(class="label") }}
+                    <div class="control has-icons-left">
+                        {% if form.webaddress.errors %}
+                        {{ form.webaddress(class="input is-danger", type="text", placeholder="https://example.com", value="") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="link" style="font-size: 20px;"></ion-icon>
+                        </span>
+                        {% for error in form.webaddress.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                        {% endfor %}
+                        {% else %}
+                        {{ form.webaddress(class="input", type="text", placeholder="https://example.com") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="link" style="font-size: 20px;"></ion-icon>
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Username field -->
+                <div class="field">
+                    {{ form.username.label(class="label") }}
+                    <div class="control has-icons-left">
+                        {% if form.username.errors %}
+                        {{ form.username(class="input is-danger", type="text", placeholder="Username", value="") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="person"></ion-icon>
+                        </span>
+                        {% for error in form.username.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                        {% endfor %}
+                        {% else %}
+                        {{ form.username(class="input", type="text", placeholder="Username") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="person"></ion-icon>
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Email field -->
+                <div class="field">
+                    {{ form.email.label(class="label") }}
+                    <div class="control has-icons-left">
+                        {% if form.email.errors %}
+                        {{ form.email(class="input is-danger", type="text", placeholder="eg. demo@email.com", value="") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="mail" style="font-size: 20px;"></ion-icon>
+                        </span>
+                        {% for error in form.email.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                        {% endfor %}
+                        {% else %}
+                        {{ form.email(class="input", type="email", placeholder="eg. demo@email.com") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="mail" style="font-size: 20px;"></ion-icon>
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Password field -->
+                <div class="field">
+                    {{ form.password.label(class="label") }}
+                    <div class="control has-icons-left">
+                        {% if form.password.errors %}
+                        {{ form.password(class="input is-danger", type="password", placeholder="Password", value="") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="lock-closed" style="font-size: 20px;"></ion-icon>
+                        </span>
+                        {% for error in form.password.errors %}
+                        <p class="help is-danger">{{ error }}</p>
+                        {% endfor %}
+                        {% else %}
+                        {{ form.password(class="input", type="password", placeholder="Password") }}
+                        <span class="icon is-small is-left">
+                            <ion-icon name="lock-closed" style="font-size: 20px;"></ion-icon>
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Submit button -->
+                <div class="control">
+                    {{ form.submit_btn(class="button is-primary") }}
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    {% endblock %}
+</body>
+
+</html>
