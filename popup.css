@@ -1,0 +1,80 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff7a18, #af002d, #3182ce); /* Colorful gradient */
+    background-size: 400% 400%;
+    animation: gradient-animation 10s ease infinite; /* Animated gradient */
+    color: white;
+    text-align: center;
+  }
+  
+  /* Keyframe for gradient animation */
+  @keyframes gradient-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  /* Popup container styles */
+  .popup-container {
+    width: 300px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  }
+  
+  h1 {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  
+  input[type="text"], input[type="password"] {
+    background-color: #333;
+    color: white;
+  }
+  
+  input[type="button"] {
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  input[type="button"]:hover {
+    background-color: #5a87d0; /* Hover effect */
+  }
+  
+  /* Placeholder color */
+  input::placeholder {
+    color: #ddd;
+  }
+  

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Manager</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+
+  <div class="popup-container">
+    <h1>Save Password</h1>
+    <input type="text" id="web-url" placeholder="Enter website URL">
+    <input type="text" id="password" placeholder="Generated password will appear here" readonly>
+    <div>
+      <input type="button" value="Generate Password" id="generate-btn">
+    </div>
+    <input type="button" value="Save" id="save-btn">
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

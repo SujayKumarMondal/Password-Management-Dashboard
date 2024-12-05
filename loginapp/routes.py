@@ -1,19 +1,39 @@
 import os
 from os import urandom
 import random
+import sqlite3
 import string
 from PIL import Image
-from flask import render_template, flash, redirect, url_for, request
+from flask import jsonify, render_template, flash, redirect, url_for, request
 from loginapp import app, db, bcrypt, mail
 from loginapp.forms import RegistrationForm, LoginForm, AddPassword, RequestResetForm, ResetPasswordForm, UserAccountUpdate, UpdatePassword
 from loginapp.models import User, PasswordManager
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 
+def init_db():
+    conn = sqlite3.connect('ext.db')
+    cursor = conn.cursor()
+    # Create the credentials table if it does not exist
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS credentials (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            web_url TEXT NOT NULL,
+            password TEXT NOT NULL
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+# Initialize the database when the server starts
+init_db()
+
+
 @app.route('/generate_password', methods=['GET', 'POST'])
 @login_required
 def generate_password():
     if request.method == 'POST':
+        # Get the form input
         length = int(request.form.get('length', 12))
         include_special = 'special' in request.form
         include_numbers = 'numbers' in request.form
@@ -154,6 +174,29 @@ def reset_token(token):
         flash("Your password has been updated. Now you can login.", 'success')
         return redirect(url_for('login'))
     return render_template('reset_token.html', title='Reset Password', form=form)
+
+
+# Endpoint to save the credentials
+@app.route('/save_password', methods=['POST'])
+def save_password():
+    data = request.json
+    web_url = data.get('web_url')
+    password = data.get('password')
+    
+    if web_url and password:
+        # Connect to the database
+        conn = sqlite3.connect('ext.db')
+        cursor = conn.cursor()
+        
+        # Insert the new credentials into the table
+        cursor.execute("INSERT INTO credentials (web_url, password) VALUES (?, ?)", (web_url, password))
+        conn.commit()
+        conn.close()
+
+        return jsonify({"message": "Password saved successfully!"}), 200
+    
+    return jsonify({"message": "Failed to save password, missing data."}), 400
+
 
 def save_picture(form_picture):
     random_hex = urandom(8).hex()
