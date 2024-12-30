@@ -1,3 +1,5 @@
 loginapp/__pycache__/
 loginapp/test.db
 loginapp/*.pyc
+.env
+__init__.py

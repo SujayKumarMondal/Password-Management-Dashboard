@@ -6,7 +6,8 @@ from flask_login import LoginManager
 from flask_mail import Mail
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '123456789'  # for form in forms.py otherwise forms does not work
+# app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')  # for form in forms.py otherwise forms does not work
+app.config['SECRET_KEY'] = '123456789' # for form in forms.py otherwise forms does not work
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db' # this line means where to create db
 
 db = SQLAlchemy(app) # creating the instance of sqlalchemy as db
@@ -18,7 +19,7 @@ app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.environ.get('DB_USER') # email id     Do this with environment variable
-app.config['MAIL_PASSWORD'] = 'iloy csol xavl rbud' # password     Do this with environment variable
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')   # password     Do this with environment variable
 app.config['MAIL_DEFAULT_SENDER'] = 'thisissujay12@gmail.com'  # Default sender
 mail = Mail(app)
 
