@@ -9,7 +9,9 @@ import wtforms
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 from loginapp.models import User
 from wtforms.validators import DataRequired, Length, Email, EqualTo, Regexp
-
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField, IntegerField
+from wtforms.validators import DataRequired, Length, Email
 
 def password_validator(form, field):
     """ Custom password validator to enforce password rules. """
@@ -129,9 +131,7 @@ class UpdatePassword(FlaskForm):
     submit_btn = SubmitField('Update Password')
 
 # forms.py (no changes necessary for the generator, but you might adjust if needed)
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField
-from wtforms.validators import DataRequired, Length, Email
+
 
 # Example form for password management
 class AddPassword(FlaskForm):
